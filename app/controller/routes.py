@@ -5,9 +5,8 @@ from .. import socketio
 
 @blueprint.route('/', methods=['GET','POST'])
 def home():
-    if request.method == 'POST' :
 
-        return render_template("index.html")
+    return render_template("index.html")
 
 
 @blueprint.route('/page2/<param>',methods=['GET'])
