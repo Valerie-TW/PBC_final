@@ -37,6 +37,11 @@ root.master.geometry('400x200')
 root.mainloop()
 
 
-
+from selenium.webdriver.support.ui import Select
+select_button = Select(driver.find_element_by_id('cstype')) 
+select_button.select_by_visible_text('流水號')
+driver.find_element_by_id('csname').clear()
+driver.find_element_by_id('csname').send_keys('26049')
+driver.find_element_by_name("Submit22").click()
 
 
