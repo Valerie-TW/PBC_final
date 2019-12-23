@@ -18,7 +18,7 @@ class window(tk.Frame) :
         self.title.pack()
     def deliver_btn(self) :
         self.btn = tk.Button(text='送出表單',bg= '#CDBA96',command=self.import_course)
-        self.img = tk.PhotoImage(file=r"C:\Users\jk520\OneDrive\桌面\PBC_final\PBC_final_page3\3.png")
+        self.img = tk.PhotoImage(file=r"./3.png")
         self.btn.config(image=self.img)
         self.btn.pack(side='bottom')
     def print_course(self) :
@@ -29,7 +29,7 @@ class window(tk.Frame) :
             flag = not flag
 
     def import_course(self) :
-        driver = webdriver.Chrome(r'C:\Users\jk520\OneDrive\桌面\PBC_final\chromedriver.exe')
+        driver = webdriver.Chrome(r'..\chromedriver.exe')
         url = 'https://nol2.aca.ntu.edu.tw/nol/guest/index.php'
         driver.get(url)
         time.sleep(2)
@@ -37,7 +37,7 @@ class window(tk.Frame) :
         #進入登入畫面
         driver.switch_to.frame(driver.find_element_by_xpath("/html/frameset/frameset/frame[1]"))
         driver.find_element_by_xpath("/html/body/form/table/tbody/tr[2]/td/input").click()
-        #輸入帳號密碼
+        #輸入帳號密碼（請自行輸入）
         driver.find_element_by_name('user').clear()
         driver.find_element_by_name('user').send_keys(account.get())
         driver.find_element_by_name('pass').clear()
@@ -81,5 +81,4 @@ entry_account.pack()
 lab_password.pack()
 entry_password.pack()
 root.mainloop()
-
 
