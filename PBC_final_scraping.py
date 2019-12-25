@@ -1,27 +1,28 @@
 from selenium import webdriver
 import time
-
+start = time.time()
 
 option = webdriver.ChromeOptions()
 option.add_argument('headless')
 
 #啟動Chrome瀏覽器，連結到課程網頁面
 driver = webdriver.Chrome('/Users/chenliangying/sublime/chromedriver', chrome_options=option)
-url = 'https://nol2.aca.ntu.edu.tw/nol/guest/index.php'
-driver.get(url)
+# url = 'https://nol2.aca.ntu.edu.tw/nol/guest/index.php'
+url2 = 'https://nol.ntu.edu.tw/nol/guest/index.php'
+driver.get(url2)
 
-start = time.time()
-#進入登入畫面
-driver.switch_to.frame(driver.find_element_by_xpath("/html/frameset/frameset/frame[1]"))
-driver.find_element_by_xpath("/html/body/form/table/tbody/tr[2]/td/input").click()
-#輸入帳號密碼（請自行輸入）
-driver.find_element_by_name('user').clear()
-driver.find_element_by_name('user').send_keys('')
-driver.find_element_by_name('pass').clear()
-driver.find_element_by_name('pass').send_keys('')
-driver.find_element_by_name('Submit').click()
+# start = time.time()
+# #進入登入畫面
+# driver.switch_to.frame(driver.find_element_by_xpath("/html/frameset/frameset/frame[1]"))
+# driver.find_element_by_xpath("/html/body/form/table/tbody/tr[2]/td/input").click()
+# #輸入帳號密碼（請自行輸入）
+# driver.find_element_by_name('user').clear()
+# driver.find_element_by_name('user').send_keys('')
+# driver.find_element_by_name('pass').clear()
+# driver.find_element_by_name('pass').send_keys('')
+# driver.find_element_by_name('Submit').click()
 
-time.sleep(1)
+# time.sleep(1)
 
 driver.switch_to.frame(driver.find_element_by_name('main'))  # 進入各式課程選欄
 
@@ -45,16 +46,17 @@ from bs4 import BeautifulSoup
 def clean_time(str1):  # 把課程時間換成set形式
     weekdays = ['一', '二', '三', '四', '五', '六']
     ABCD_num = ['A', 'B', 'C', 'D']
-    time_clean = set()
-    save = str()
-    for i in str1:
-        if i in weekdays:
-            save = i
-        elif save != '' and i != ',':
-            if i in ABCD_num:
-                time_clean.add(ABCD_num.index(i) + 11 + 15 * weekdays.index(save))
-            elif i.isnumeric() or i in ABCD_num:
-                time_clean.add(int(i) + 15 * weekdays.index(save))
+    abcd_num = ['a', 'b', 'c', 'd']
+    time_clean = []
+    dic1 = time_to_dict(str1)
+    for i in dic1.keys():
+        for j in dic1[i]:
+            if j in ABCD_num:
+                time_clean.append(ABCD_num.index(j) + 11 + 15 * weekdays.index(i))
+            elif j in abcd_num:
+                time_clean.append(abcd_num.index(j) + 11 + 15 * weekdays.index(i))
+            elif j.isnumeric():
+                time_clean.append(int(j.strip()) + 15 * weekdays.index(i))
     return time_clean
 
 def time_to_dict(str1):  # 把課程時間換成字典形式
@@ -66,7 +68,7 @@ def time_to_dict(str1):  # 把課程時間換成字典形式
     for i in str1:
         if i in weekdays:
             if save != '':
-                time_clean[save] = [j for j in save_value.split(',')]
+                time_clean[save] = [j.strip() for j in save_value.split(',')]
                 save = i
                 save_value = str()
             else:
@@ -75,7 +77,7 @@ def time_to_dict(str1):  # 把課程時間換成字典形式
         elif save != '':
             save_value += i
     if save_value != '':
-        time_clean[save] = [j for j in save_value.split(',')]
+        time_clean[save] = [j.strip() for j in save_value.split(',')]
     return time_clean
 
 def clear_word_in_bracket(str1):  # 把課程時間含的括號去除
@@ -99,34 +101,43 @@ same = 0  # 重複流水號的課程數量
 odd_same = [[1, 0, 0]]  # 總計第幾頁的odd&same
 soup = BeautifulSoup(driver.page_source, 'html.parser')
 c = soup.find_all('tr', {'align':'center'})
+
+
   # 爬第一頁
   # 把正常時間資料放到最後，第12項換成set資料
-for i in c[1:]:
+for i in c[:]:
     if str(i.find_all('td')[0].text).isnumeric():
         if i.find_all('td')[0].text in data.keys():
             same += 1
             odd_same[0][2] += 1
-            raw_data.append([])
-            for j in i.find_all('td'):
-                raw_data[-1].append(j.text)
+            # raw_data.append([])
+            # for j in i.find_all('td'):
+            #     raw_data[-1].append(j.text)
+            # if raw_data[-1][12] == '\xa0':
+            #     raw_data[-1].append(time_to_dict(clear_word_in_bracket(raw_data[-1][12])))
+            #     raw_data[-1][12] = []
+            # else:
+            #     raw_data[-1].append(time_to_dict(clear_word_in_bracket(raw_data[-1][12])))
+            #     raw_data[-1][12] = clean_time(clear_word_in_bracket(raw_data[-1][12]))
+
         else:
             data[i.find_all('td')[0].text] = []
-            raw_data.append([])
+            # raw_data.append([])
             for j in i.find_all('td'):
                 data[i.find_all('td')[0].text].append(j.text)
-                raw_data[-1].append(j.text)
+                # raw_data[-1].append(j.text)
             if data[i.find_all('td')[0].text][12] == '\xa0':
                 data[i.find_all('td')[0].text].append(time_to_dict(clear_word_in_bracket(data[i.find_all('td')[0].text][12].strip())))
-                data[i.find_all('td')[0].text][12] = set()
+                data[i.find_all('td')[0].text][12] = []
             else:
                 data[i.find_all('td')[0].text].append(time_to_dict(clear_word_in_bracket(data[i.find_all('td')[0].text][12].strip())))
                 data[i.find_all('td')[0].text][12] = clean_time(clear_word_in_bracket(data[i.find_all('td')[0].text][12].strip()))
-            if raw_data[-1][12] == '\xa0':
-                raw_data[-1].append(time_to_dict(clear_word_in_bracket(raw_data[-1])))
-                raw_data[-1][12] = set()
-            else:
-                raw_data[-1].append(time_to_dict(clear_word_in_bracket(raw_data[-1])))
-                raw_data[-1][12] = clean_time(clear_word_in_bracket(raw_data[-1]))
+            # if raw_data[-1][12] == '\xa0':
+            #     raw_data[-1].append(time_to_dict(clear_word_in_bracket(raw_data[-1][12])))
+            #     raw_data[-1][12] = []
+            # else:
+            #     raw_data[-1].append(time_to_dict(clear_word_in_bracket(raw_data[-1][12])))
+            #     raw_data[-1][12] = clean_time(clear_word_in_bracket(raw_data[-1][12]))
     else:
         odd += 1
         odd_same[0][1] += 1
@@ -146,27 +157,33 @@ for w in range(2, 15):
             if i.find_all('td')[0].text in data.keys():
                 same += 1
                 odd_same[-1][2] += 1
-                raw_data.append([])
-                for j in i.find_all('td'):
-                    raw_data[-1].append(j.text)
+                # raw_data.append([])
+                # for j in i.find_all('td'):
+                #     raw_data[-1].append(j.text)
+                # if raw_data[-1][12] == '\xa0':
+                #     raw_data[-1].append(time_to_dict(clear_word_in_bracket(raw_data[-1][12])))
+                #     raw_data[-1][12] = []
+                # else:
+                #     raw_data[-1].append(time_to_dict(clear_word_in_bracket(raw_data[-1][12])))
+                #     raw_data[-1][12] = clean_time(clear_word_in_bracket(raw_data[-1][12]))
             else:
                 data[i.find_all('td')[0].text] = []
-                raw_data.append([])
+                # raw_data.append([])
                 for j in i.find_all('td'):
                     data[i.find_all('td')[0].text].append(j.text)
-                    raw_data[-1].append(j.text)
+                    # raw_data[-1].append(j.text)
                 if data[i.find_all('td')[0].text][12] == '\xa0':
                     data[i.find_all('td')[0].text].append(time_to_dict(clear_word_in_bracket(data[i.find_all('td')[0].text][12].strip())))
-                    data[i.find_all('td')[0].text][12] = set()
+                    data[i.find_all('td')[0].text][12] = []
                 else:
                     data[i.find_all('td')[0].text].append(time_to_dict(clear_word_in_bracket(data[i.find_all('td')[0].text][12].strip())))
                     data[i.find_all('td')[0].text][12] = clean_time(clear_word_in_bracket(data[i.find_all('td')[0].text][12].strip()))
-                if raw_data[-1][12] == '\xa0':
-                    raw_data[-1].append(time_to_dict(clear_word_in_bracket(raw_data[-1])))
-                    raw_data[-1][12] = set()
-                else:
-                    raw_data[-1].append(time_to_dict(clear_word_in_bracket(raw_data[-1])))
-                    raw_data[-1][12] = clean_time(clear_word_in_bracket(raw_data[-1]))
+                # if raw_data[-1][12] == '\xa0':
+                #     raw_data[-1].append(time_to_dict(clear_word_in_bracket(raw_data[-1][12])))
+                #     raw_data[-1][12] = []
+                # else:
+                #     raw_data[-1].append(time_to_dict(clear_word_in_bracket(raw_data[-1][12])))
+                #     raw_data[-1][12] = clean_time(clear_word_in_bracket(raw_data[-1][12]))
         else:
             odd += 1
             odd_same[-1][1] += 1
@@ -186,16 +203,16 @@ worksheet = sheet.worksheet_by_title('PBC_final')
 worksheet.set_dataframe(data_frame.T, (1,1))
 
 
-data_frame2 = pd.DataFrame(raw_data)
-worksheet2 = sheet.worksheet_by_title('PBC_final_rawdata')
-worksheet2.set_dataframe(data_frame2, (1,1))
+# data_frame2 = pd.DataFrame(raw_data)
+# worksheet2 = sheet.worksheet_by_title('PBC_final_rawdata')
+# worksheet2.set_dataframe(data_frame2, (1,1))
 
   # 把資料轉成excel
-file_path = '/Users/chenliangying/sublime/test.xlsx'
-writer = pd.ExcelWriter(file_path)
-#columns参数用于指定生成的excel中列的顺序    columns=['char','num']
-data_frame.T.to_excel(writer, index=False, encoding='utf-8',sheet_name='Sheet')
-writer.save()
+# file_path = '/Users/chenliangying/sublime/test.xlsx'
+# writer = pd.ExcelWriter(file_path)
+# columns参数用于指定生成的excel中列的顺序    columns=['char','num']
+# data_frame2.T.to_excel(writer, index=False, encoding='utf-8',sheet_name='Sheet')
+# writer.save()
 
 end = time.time()
 print(end - start)  # 計算程式執行時間
