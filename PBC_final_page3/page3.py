@@ -1,13 +1,22 @@
 import tkinter as tk
-from tkinter import ttk 
+# from tkinter import ttk 
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import time
+from cr import *
+# import pandas as pd
+# import gspread
+# from oauth2client.service_account import ServiceAccountCredentials as SAC
+# import pygsheets
+
+
 
 class window(tk.Frame) :
     def __init__(self, selected_course) :
         tk.Frame.__init__(self)
-        self.course = selected_course
+        self.status = tk.StringVar()
+        self.status.set('')
+        # self.course = selected_course
         self.pack()     
         self.deliver_btn()
         self.text_title()
@@ -19,11 +28,15 @@ class window(tk.Frame) :
     def deliver_btn(self) :
         self.btn = tk.Button(text='送出表單',bg= '#CDBA96',command=self.import_course)
         self.img = tk.PhotoImage(file=r"./3.png")
+        self.status_label = tk.Label(textvariable=self.status,fg='#8B814C',bg='#FFFFE0')
         self.btn.config(image=self.img)
         self.btn.pack(side='bottom')
+        self.status_label.pack(side='bottom')
     def print_course(self) :
         flag = True
-        for key,value in self.course.items():    
+        # target_idx = [97001, 97002, 97003]
+        self.course = get_selected_course(target)
+        for value in self.course:    
             self.lab = tk.Label(text=value,font='微軟正黑體 10',width ='100',height='2',bg=('#FFFACD' if flag else '#EEE8CD'))
             self.lab.pack()
             flag = not flag
@@ -38,12 +51,15 @@ class window(tk.Frame) :
         driver.switch_to.frame(driver.find_element_by_xpath("/html/frameset/frameset/frame[1]"))
         driver.find_element_by_xpath("/html/body/form/table/tbody/tr[2]/td/input").click()
         #輸入帳號密碼（請自行輸入）
-        driver.find_element_by_name('user').clear()
-        driver.find_element_by_name('user').send_keys(account.get())
-        driver.find_element_by_name('pass').clear()
-        driver.find_element_by_name('pass').send_keys(password.get())
-        driver.find_element_by_name('Submit').click()
-
+        try:
+            driver.find_element_by_name('user').clear()
+            driver.find_element_by_name('user').send_keys(account.get())
+            driver.find_element_by_name('pass').clear()
+            driver.find_element_by_name('pass').send_keys(password.get())
+            driver.find_element_by_name('Submit').click()
+        except Exception:
+            print(Exception)
+        # self.status.set('成功登入課程網')
         time.sleep(1)
         driver.switch_to.frame(driver.find_element_by_name('main'))  # 進入各式課程選欄
         driver.find_element_by_xpath('/html/body/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[1]/td[1]/table/tbody/tr[2]/td/map/area[1]').click()
@@ -52,8 +68,8 @@ class window(tk.Frame) :
         select_button = Select(driver.find_element_by_id('cstype')) 
         select_button.select_by_visible_text('流水號')
 
-        number_list = ['01001','44747']
-        for number in number_list :
+        
+        for number in target :
             driver.find_element_by_id('csname').clear()
             driver.find_element_by_id('csname').send_keys(number)
             driver.find_element_by_name("Submit22").click()
@@ -81,4 +97,3 @@ entry_account.pack()
 lab_password.pack()
 entry_password.pack()
 root.mainloop()
-
