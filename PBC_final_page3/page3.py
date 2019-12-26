@@ -40,7 +40,7 @@ class window(tk.Frame) :
         # target_idx = [97001, 97002, 97003]
         flag = True
         for value in self.course:    
-            self.lab = tk.Label(text=value,font='微軟正黑體 12',anchor='w',width ='160',height='2',bg=('#FFFACD' if flag else '#EEE8CD'))
+            self.lab = tk.Label(text=value,font='微軟正黑體 10',width ='160',height='2',bg=('#FFFACD' if flag else '#EEE8CD'))
             self.lab.pack()
             flag = not flag
 
