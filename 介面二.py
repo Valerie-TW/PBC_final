@@ -11,261 +11,220 @@ from tkinter import ttk
 from tkinter import messagebox
 import pandas as pd
 
-csv = pd.read_csv('PBC_final_rawdata.csv')
-a = pd.DataFrame(csv)
-course_list = a.values.tolist()
+class Select(tk.Frame):
+    def __init__(self):
+        tk.Frame.__init__(self)
+        self.grid()
+        self.csv = pd.read_csv('PBC_final_rawdata.csv')
+        self.a = pd.DataFrame(self.csv)
+        self.course_list = self.a.values.tolist()
+        self.create_widget()
+    def create_widget(self):
+        self.filter2 = []
+        for i in self.a['2']:
+            d2 = bool(i[0:2] == 'PE')
+            self.filter2.append(d2)
+        self.filter3 = []
+        for i in self.a['4']:
+            if len(i) < 5:
+                self.filter3.append(False)
+            else:
+                d3 = bool(i[1:5] == '大學國文')
+                self.filter3.append(d3)
 
-filter2 = []
-for i in a['2']:
-    d2 = bool(i[0:2] == 'PE')
-    filter2.append(d2)
+        self.filter4 = []
+        self.tag = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8']
+        for i in self.a['15']:
+            for j in self.tag:
+                if j in str(i):
+                    self.filter4.append(True)
+                    break
+                elif j == 'A8' and j not in str(i):
+                    self.filter4.append(False)
 
-filter3 = []
-for i in a['4']:
-    if len(i) < 5:
-        filter3.append(False)
-    else:
-        d3 = bool(i[1:5] == '大學國文')
-        filter3.append(d3)
+        self.filter5 = []
+        for i in self.a['4']:
+            if len(i) < 11:
+                self.filter5.append(False)
+            else:
+                d5 = bool(i[1:11] == '全民國防教育軍事訓練')
+                self.filter5.append(d5)
 
-filter4 = []
-tag = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8']
-for i in a['15']:
-    for j in tag:
-        if j in str(i):
-            filter4.append(True)
-            break
-        elif j == 'A8' and j not in str(i):
-            filter4.append(False)
+        self.filter6 = []
+        for i in range(len(self.filter2)):
+            if self.filter2[i] == self.filter3[i] == self.filter4[i] == self.filter5[i] == False:
+                self.filter6.append(True)
+            else:
+                self.filter6.append(False)
 
-filter5 = []
-for i in a['4']:
-    if len(i) < 11:
-        filter5.append(False)
-    else:
-        d5 = bool(i[1:11] == '全民國防教育軍事訓練')
-        filter5.append(d5)
+        self.window = tk.Tk()
+        self.window.title("My Course")
+        self.window.geometry("1920x1080")
+        self.window.minsize(width=640, height=300)
+        self.window.maxsize(width=1920, height=1080)
+        self.window.config(bg="lightyellow")
+        self.window.attributes("-alpha", 1)
 
-filter6 = []
-for i in range(len(filter2)):
-    if filter2[i] == filter3[i] == filter4[i] == filter5[i] == False:
-        filter6.append(True)
-    else:
-        filter6.append(False)
+        self.labelTop1 = tk.Label(self.window, text="體育")
+        self.labelTop1.grid(column=0, row=0)
+        self.comboExample1 = ttk.Combobox(self.window, value=self.a[self.filter2].values.tolist(), width=50)
+        # print(dict(comboExample1))
+        self.comboExample1.grid(column=0, row=1)
+        self.comboExample1.current(0)
 
+        self.btn1 = tk.Button(self.window, text="add", width=15,
+                         height=2, command=self.add1)
+        self.btn1.grid(column=1, row=1)
 
-# 建立主視窗和 Frame（把元件變成群組的容器）
-window = tk.Tk()
-window.title("My Course")
-"""
-# 將元件分為 top/bottom 兩群並加入主視窗
-window.top_frame.grid()
-window.bottom_frame.grid(side=tk.BOTTOM)
-"""
-# 設定視窗參數
-window.geometry("1920x1080")  # 預設開啟大小
-"""
-window.minsize(width=640, height=300)  # 縮放最小大小
-window.maxsize(width=1920, height=1080)  # 縮放最大大小
-"""
-window.config(bg="lightyellow")  # 顏色
-window.attributes("-alpha", 1)  # 透明度
-# window.attributes("-topmost", 1)  # 置頂
+        self.btn11 = tk.Button(self.window, text="remove", width=15,
+                         height=2, command=self.remove1)
+        self.btn11.grid(column=2, row=1)
 
-course = str()
+        self.labelTop2 = tk.Label(self.window, text="大學國文")
+        self.labelTop2.grid(column=0, row=2)
+        self.comboExample2 = ttk.Combobox(self.window, value=self.a[self.filter3].values.tolist(), width=50)
+        # print(dict(comboExample2))
+        self.comboExample2.grid(column=0, row=3)
+        self.comboExample2.current(0)
 
-def add1():
-    global course
-    course = comboExample1.get()
-    addToCart()
+        self.btn2 = tk.Button(self.window, text="add", width=15,
+                         height=2, command=self.add2)
+        self.btn2.grid(column=1, row=3)
 
-def add2():
-    global course
-    course = comboExample2.get()
-    addToCart()
+        self.btn22 = tk.Button(self.window, text="remove", width=15,
+                         height=2, command=self.remove2)
+        self.btn22.grid(column=2, row=3)
 
-def add3():
-    global course
-    course = comboExample3.get()
-    addToCart()
+        self.labelTop3 = tk.Label(self.window, text="通識")
+        self.labelTop3.grid(column=0, row=4)
+        self.comboExample3 = ttk.Combobox(self.window, value=self.a[self.filter4].values.tolist(), width=50)
+        self.comboExample3.grid(column=0, row=5)
+        self.comboExample3.current(0)
 
-def add4():
-    global course
-    course = comboExample4.get()
-    addToCart()
+        self.btn3 = tk.Button(self.window, text="add", width=15,
+                         height=2, command=self.add3)
+        self.btn3.grid(column=1, row=5)
 
-def add4():
-    global course
-    course = comboExample4.get()
-    addToCart()
+        self.btn33 = tk.Button(self.window, text="remove", width=15,
+                         height=2, command=self.remove3)
+        self.btn33.grid(column=2, row=5)
 
-def add5():
-    global course
-    course = comboExample5.get()
-    addToCart()
+        self.labelTop4 = tk.Label(self.window, text="軍訓")
+        self.labelTop4.grid(column=0, row=6)
+        self.comboExample4 = ttk.Combobox(self.window, value=self.a[self.filter5].values.tolist(), width=50)
+        self.comboExample4.grid(column=0, row=7)
+        self.comboExample4.current(0)
 
-def add6():
-    global course
-    course = comboExample6.get()
-    addToCart()
+        self.btn4 = tk.Button(self.window, text="add", width=15,
+                         height=2, command=self.add4)
+        self.btn4.grid(column=1, row=7)
 
-def remove1():
-    global course
-    course = comboExample1.get()
-    removeFromCart()
+        self.btn44 = tk.Button(self.window, text="remove", width=15,
+                         height=2, command=self.remove4)
+        self.btn44.grid(column=2, row=7)
 
-def remove2():
-    global course
-    course = comboExample2.get()
-    removeFromCart()
+        self.labelTop5 = tk.Label(self.window, text="選修")
+        self.labelTop5.grid(column=0, row=8)
+        self.comboExample5 = ttk.Combobox(self.window, value=self.a[self.filter6].values.tolist(), width=50)
+        # print(dict(comboExample5))
+        self.comboExample5.grid(column=0, row=9)
+        self.comboExample5.current(0)
 
-def remove3():
-    global course
-    course = comboExample3.get()
-    removeFromCart()
+        self.btn5 = tk.Button(self.window, text="add", width=15,
+                         height=2, command=self.add5)
+        self.btn5.grid(column=1, row=9)
 
-def remove4():
-    global course
-    course = comboExample4.get()
-    removeFromCart()
+        self.btn55 = tk.Button(self.window, text="remove", width=15,
+                         height=2, command=self.remove5)
+        self.btn55.grid(column=2, row=9)
 
-def remove5():
-    global course
-    course = comboExample5.get()
-    removeFromCart()
+        self.course = str()
+        self.list = []
 
-def remove6():
-    global course
-    course = comboExample6.get()
-    removeFromCart()
+    def add1(self):
+        global course
+        self.course = self.comboExample1.get()
+        self.addToCart()
 
-labelTop1 = tk.Label(window, text="體育")
-labelTop1.grid(column=0, row=0)
-comboExample1 = ttk.Combobox(window, value=a[filter2].values.tolist(), width=50)
-# print(dict(comboExample1))
-comboExample1.grid(column=0, row=1)
-comboExample1.current(0)
+    def add2(self):
+        global course
+        self.course = self.comboExample2.get()
+        self.addToCart()
 
-btn1 = tk.Button(window, text="add", width=15,
-                 height=2, command=add1)
-btn1.grid(column=1, row=1)
+    def add3(self):
+        global course
+        self.course = self.comboExample3.get()
+        self.addToCart()
 
-btn11 = tk.Button(window, text="remove", width=15,
-                 height=2, command=remove1)
-btn11.grid(column=2, row=1)
+    def add4(self):
+        global course
+        self.course = self.comboExample4.get()
+        self.addToCart()
 
-labelTop2 = tk.Label(window, text="大學國文")
-labelTop2.grid(column=0, row=2)
-comboExample2 = ttk.Combobox(window, value=a[filter3].values.tolist(), width=50)
-# print(dict(comboExample2))
-comboExample2.grid(column=0, row=3)
-comboExample2.current(0)
+    def add4(self):
+        global course
+        self.course = self.comboExample4.get()
+        self.addToCart()
 
-btn2 = tk.Button(window, text="add", width=15,
-                 height=2, command=add2)
-btn2.grid(column=1, row=3)
+    def add5(self):
+        global course
+        self.course = self.comboExample5.get()
+        self.addToCart()
 
-btn22 = tk.Button(window, text="remove", width=15,
-                 height=2, command=remove2)
-btn22.grid(column=2, row=3)
+    def add6(self):
+        global course
+        self.course = self.comboExample6.get()
+        self.addToCart()
 
-labelTop3 = tk.Label(window, text="通識")
-labelTop3.grid(column=0, row=4)
-comboExample3 = ttk.Combobox(window, value=a[filter4].values.tolist(), width=50)
-# print(dict(comboExample3))
-comboExample3.grid(column=0, row=5)
-comboExample3.current(0)
+    def remove1(self):
+        global course
+        self.course = self.comboExample1.get()
+        self.removeFromCart()
 
-btn3 = tk.Button(window, text="add", width=15,
-                 height=2, command=add3)
-btn3.grid(column=1, row=5)
+    def remove2(self):
+        global course
+        self.course = self.comboExample2.get()
+        self.removeFromCart()
 
-btn33 = tk.Button(window, text="remove", width=15,
-                 height=2, command=remove3)
-btn33.grid(column=2, row=5)
+    def remove3(self):
+        global course
+        self.course = self.comboExample3.get()
+        self.removeFromCart()
 
-labelTop4 = tk.Label(window, text="軍訓")
-labelTop4.grid(column=0, row=6)
-comboExample4 = ttk.Combobox(window, value=a[filter5].values.tolist(), width=50)
-# print(dict(comboExample4))
-comboExample4.grid(column=0, row=7)
-comboExample4.current(0)
+    def remove4(self):
+        global course
+        self.course = self.comboExample4.get()
+        self.removeFromCart()
 
-btn4 = tk.Button(window, text="add", width=15,
-                 height=2, command=add4)
-btn4.grid(column=1, row=7)
+    def remove5(self):
+        global course
+        self.course = self.comboExample5.get()
+        self.removeFromCart()
 
-btn44 = tk.Button(window, text="remove", width=15,
-                 height=2, command=remove4)
-btn44.grid(column=2, row=7)
+    def remove6(self):
+        global course
+        self.course = self.comboExample6.get()
+        self.removeFromCart()
 
-labelTop5 = tk.Label(window, text="選修")
-labelTop5.grid(column=0, row=8)
-comboExample5 = ttk.Combobox(window, value=a[filter6].values.tolist(), width=50)
-# print(dict(comboExample5))
-comboExample5.grid(column=0, row=9)
-comboExample5.current(0)
+    def addToCart(self):
+        if self.course in self.list:
+            tk.messagebox.showerror(title='Error', message=self.course+" was added before!")
+        elif self.course == "--Select a flavor--":
+            tk.messagebox.showerror(title='Error', message="Please select a flavor!")
+        else:
+            self.list.append(self.course)
+            tk.messagebox.showerror(title='Success', message=self.course+" has been added!")
+            print(self.list)
 
-btn5 = tk.Button(window, text="add", width=15,
-                 height=2, command=add5)
-btn5.grid(column=1, row=9)
+    def removeFromCart(self):
+        if self.course in self.list:
+            self.list.remove(self.course)
+            tk.messagebox.showerror(title='Success', message=self.course+" has been removed!")
+            print(self.list)
+        elif self.course == "--Select a flavor--":
+            tk.messagebox.showerror(title='Error', message="Please select a flavor!")
+        else:
+            tk.messagebox.showerror(title='Error', message=self.course+" wasn't added!")
 
-btn55 = tk.Button(window, text="remove", width=15,
-                 height=2, command=remove5)
-btn55.grid(column=2, row=9)
-
-
-list = []
-
-def addToCart():
-    if course in list:
-        tk.messagebox.showerror(title='Error', message=course+" was added before!")
-    elif course == "--Select a flavor--":
-        tk.messagebox.showerror(title='Error', message="Please select a flavor!")
-    else:
-        list.append(course)
-        tk.messagebox.showerror(title='Success', message=course+" has been added!")
-        print(list)
-
-def removeFromCart():
-    if course in list:
-        list.remove(course)
-        tk.messagebox.showerror(title='Success', message=course+" has been removed!")
-        print(list)
-    elif course == "--Select a flavor--":
-        tk.messagebox.showerror(title='Error', message="Please select a flavor!")
-    else:
-        tk.messagebox.showerror(title='Error', message=course+" wasn't added!")
-window.mainloop()
-
-
-
-# 以下是menubar
-"""
-menubar = tk.Menu(window)
-filemenu = tk.Menu(menubar, tearoff=0)
-menubar.add_cascade(label='File', menu=filemenu)
-filemenu.add_command(label='New', command=do_job)
-filemenu.add_command(label='Open', command=do_job)
-filemenu.add_command(label='Save', command=do_job)
-filemenu.add_separator()
-filemenu.add_command(label='Exit', command=window.quit)
-
-editmenu = tk.Menu(menubar, tearoff=0)
-menubar.add_cascade(label='Edit', menu=editmenu)
-editmenu.add_command(label='Cut', command=do_job)
-editmenu.add_command(label='Copy', command=do_job)
-editmenu.add_command(label='Paste', command=do_job)
-
-submenu = tk.Menu(filemenu)
-filemenu.add_cascade(label='Import', menu=submenu, underline=0)
-submenu.add_command(label="Submenu1", command=do_job)
-
-window.config(menu=menubar)
-"""
-"""
-btn2 = tk.Button(window,
-                 text='Add to Cart',
-                 )
-btn2.pack()
-"""
+s = Select()
+s.mainloop()
