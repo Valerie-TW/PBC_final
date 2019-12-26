@@ -11,7 +11,7 @@ from tkinter import ttk
 from tkinter import messagebox
 import pandas as pd
 
-csv = pd.read_csv('PBC_final.csv')
+csv = pd.read_csv('PBC_final_rawdata.csv')
 a = pd.DataFrame(csv)
 course_list = a.values.tolist()
 
@@ -46,16 +46,13 @@ for i in a['4']:
         d5 = bool(i[1:11] == '全民國防教育軍事訓練')
         filter5.append(d5)
 
+filter6 = []
+for i in range(len(filter2)):
+    if filter2[i] == filter3[i] == filter4[i] == filter5[i] == False:
+        filter6.append(True)
+    else:
+        filter6.append(False)
 
-Tea = ['--Select a flavor--', 'Assam Black Tea', 'Premium Jin Xuan Tea',
-       'Toffee Black Tea', 'Gyokuro Green Tea', 'Earl Grey Tea',
-       'Rose Black Tea', 'Lichee Black Tea', 'Orange Fruit Tea']
-
-Fresh_Milk_Tea = ['--Select a flavor--', 'British-style Tea with Fresh Milk',
-                  'White Gourd  with Fresh Milk', 'Tieguanyin  with Fresh Milk',
-                  'Earl Grey Tea with Fresh Milk', 'Rose Black Tea with Fresh Milk',
-                  'Lichee Black Tea with Fresh Milk',
-                  'Matcha  with Fresh Milk', 'Chocolote  with Fresh Milk']
 
 # 建立主視窗和 Frame（把元件變成群組的容器）
 window = tk.Tk()
@@ -202,9 +199,9 @@ btn44 = tk.Button(window, text="remove", width=15,
                  height=2, command=remove4)
 btn44.grid(column=2, row=7)
 
-labelTop5 = tk.Label(window, text="Tea")
+labelTop5 = tk.Label(window, text="選修")
 labelTop5.grid(column=0, row=8)
-comboExample5 = ttk.Combobox(window, value=Tea, width=50)
+comboExample5 = ttk.Combobox(window, value=a[filter6].values.tolist(), width=50)
 # print(dict(comboExample5))
 comboExample5.grid(column=0, row=9)
 comboExample5.current(0)
@@ -217,20 +214,6 @@ btn55 = tk.Button(window, text="remove", width=15,
                  height=2, command=remove5)
 btn55.grid(column=2, row=9)
 
-labelTop6 = tk.Label(window, text="Fresh Milk Tea")
-labelTop6.grid(column=0, row=10)
-comboExample6 = ttk.Combobox(window, value=Fresh_Milk_Tea, width=50)
-# print(dict(comboExample6))
-comboExample6.grid(column=0, row=11)
-comboExample6.current(0)
-
-btn6 = tk.Button(window, text="add", width=15,
-                 height=2, command=add6)
-btn6.grid(column=1, row=11)
-
-btn66 = tk.Button(window, text="remove", width=15,
-                 height=2, command=remove6)
-btn66.grid(column=2, row=11)
 
 list = []
 
