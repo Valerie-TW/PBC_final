@@ -33,11 +33,14 @@ class window(tk.Frame) :
         self.btn.pack(side='bottom')
         self.status_label.pack(side='bottom')
     def print_course(self) :
-        flag = True
-        # target_idx = [97001, 97002, 97003]
         self.course = get_selected_course(target)
+        # self.lab = tk.Label(text='111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111  22222222222')
+        # self.lab.pack()
+        
+        # target_idx = [97001, 97002, 97003]
+        flag = True
         for value in self.course:    
-            self.lab = tk.Label(text=value,font='微軟正黑體 10',width ='100',height='2',bg=('#FFFACD' if flag else '#EEE8CD'))
+            self.lab = tk.Label(text=value,font='微軟正黑體 12',anchor='w',width ='160',height='2',bg=('#FFFACD' if flag else '#EEE8CD'))
             self.lab.pack()
             flag = not flag
 
@@ -92,8 +95,8 @@ lab_account = tk.Label(text='帳號',font='微軟正黑體 10',fg='#8B814C',bg='
 entry_account = tk.Entry(textvariable=account)
 lab_password = tk.Label(text='密碼',font='微軟正黑體 10',fg='#8B814C',bg='#FFFFE0')
 entry_password = tk.Entry(textvariable=password,show='*')
-lab_account.pack()
-entry_account.pack()
-lab_password.pack()
-entry_password.pack()
+entry_password.pack(side='bottom')
+lab_password.pack(side='bottom')
+entry_account.pack(side='bottom')
+lab_account.pack(side='bottom')
 root.mainloop()
