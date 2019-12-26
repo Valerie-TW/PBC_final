@@ -20,31 +20,32 @@ for i in a['2']:
     d2 = bool(i[0:2] == 'PE')
     filter2.append(d2)
 
-S_F_waffles = ['--Select a flavor--', 'Corn with Vegetables', 'Cheese with Vegetables',
-               'Smoked Chicken with Vegetables', 'Beef Burger with Vegetables',
-               'Spicy Chicken with Vegetables', 'Tuna Salad with Vegetables',
-               'New Orieans Roasted Chicken with Vegetables',
-               'Sliced Pork in Terlyaki Sauce with Vegetables',
-               'BBQ Chicken Thigh with Vegetables',
-               'Chicken Thigh in Basil Sauce with Vegetables',
-               'Bacon & Peanut Paste with Vegetables',
-               'Korean Flavor Spicy Chicken Thigh with Vegetables',
-               'Spicy Chicken & Bacon  with Vegetables',
-               'Jalapeno Slices & Chicken  with Vegetables',
-               'Jalapeno Slices & Beef Burger with Vegetables',
-               'Beef Burger & Bacon, Peanut Paste with Vegetables',
-               'BBQ Chicken Thigh & Bacon, Peanut Paste with Vegetables'
-               ]
+filter3 = []
+for i in a['4']:
+    if len(i) < 5:
+        filter3.append(False)
+    else:
+        d3 = bool(i[1:5] == '大學國文')
+        filter3.append(d3)
 
-F_F_waffles = ['--Select a flavor--', 'Brown Pattles with Sliced Cheese',
-               'Golden Pork Cutlet with Sliced Cheese',
-               'Spicy Fried Chicken Thigh with Sliced Cheese',
-               'Original Fried Chicken Thigh with Sliced Cheese',
-               ]
+filter4 = []
+tag = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8']
+for i in a['15']:
+    for j in tag:
+        if j in str(i):
+            filter4.append(True)
+            break
+        elif j == 'A8' and j not in str(i):
+            filter4.append(False)
 
-Fried_snacks = ['--Select a flavor--','Brown Patties',
-                'Golden Crispy Fries', 'Tender Chicken Nuggets',
-                'Spicy Popcorn Chicken', 'Original Popcorn Chicken']
+filter5 = []
+for i in a['4']:
+    if len(i) < 11:
+        filter5.append(False)
+    else:
+        d5 = bool(i[1:11] == '全民國防教育軍事訓練')
+        filter5.append(d5)
+
 
 Tea = ['--Select a flavor--', 'Assam Black Tea', 'Premium Jin Xuan Tea',
        'Toffee Black Tea', 'Gyokuro Green Tea', 'Earl Grey Tea',
@@ -156,9 +157,9 @@ btn11 = tk.Button(window, text="remove", width=15,
                  height=2, command=remove1)
 btn11.grid(column=2, row=1)
 
-labelTop2 = tk.Label(window, text="Salty Flavor Waffles")
+labelTop2 = tk.Label(window, text="大學國文")
 labelTop2.grid(column=0, row=2)
-comboExample2 = ttk.Combobox(window, value=S_F_waffles, width=50)
+comboExample2 = ttk.Combobox(window, value=a[filter3].values.tolist(), width=50)
 # print(dict(comboExample2))
 comboExample2.grid(column=0, row=3)
 comboExample2.current(0)
@@ -171,9 +172,9 @@ btn22 = tk.Button(window, text="remove", width=15,
                  height=2, command=remove2)
 btn22.grid(column=2, row=3)
 
-labelTop3 = tk.Label(window, text="Fried Flavor Waffles")
+labelTop3 = tk.Label(window, text="通識")
 labelTop3.grid(column=0, row=4)
-comboExample3 = ttk.Combobox(window, value=F_F_waffles, width=50)
+comboExample3 = ttk.Combobox(window, value=a[filter4].values.tolist(), width=50)
 # print(dict(comboExample3))
 comboExample3.grid(column=0, row=5)
 comboExample3.current(0)
@@ -186,9 +187,9 @@ btn33 = tk.Button(window, text="remove", width=15,
                  height=2, command=remove3)
 btn33.grid(column=2, row=5)
 
-labelTop4 = tk.Label(window, text="Fried Snacks")
+labelTop4 = tk.Label(window, text="軍訓")
 labelTop4.grid(column=0, row=6)
-comboExample4 = ttk.Combobox(window, value=Fried_snacks, width=50)
+comboExample4 = ttk.Combobox(window, value=a[filter5].values.tolist(), width=50)
 # print(dict(comboExample4))
 comboExample4.grid(column=0, row=7)
 comboExample4.current(0)
