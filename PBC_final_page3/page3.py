@@ -40,7 +40,7 @@ class window(tk.Frame) :
         # target_idx = [97001, 97002, 97003]
         flag = True
         for value in self.course:    
-            self.lab = tk.Label(text=value,font='微軟正黑體 10',width ='160',height='',bg=('#FFFACD' if flag else '#EEE8CD'))
+            self.lab = tk.Label(text=value,font='微軟正黑體 10',width ='160',height='3',bg=('#FFFACD' if flag else '#EEE8CD'))
             self.lab.pack()
             flag = not flag
 
@@ -79,9 +79,9 @@ class window(tk.Frame) :
             # driver.switch_to.frame(driver.find_element_by_name('main'))
             driver.find_element_by_xpath("/html/body/table[4]/tbody/tr[2]/td[18]").click()
 
-number_list = ['01001','44747']
-course = {'01001':'CHIN1081 01 大學國文一','44747':'圖資系	LIS1004	參考資源','30904':'圖資系 LIS1003 01 服務學習三'}
-root = window(course) 
+# number_list = ['01001','44747']
+# course = {'01001':'CHIN1081 01 大學國文一','44747':'圖資系	LIS1004	參考資源','30904':'圖資系 LIS1003 01 服務學習三'}
+root = window(target) 
 root.master.title('已選課程')
 root.master.configure(bg='#FFFFE0')
 root.master.resizable(1,1)
