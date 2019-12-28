@@ -330,8 +330,8 @@ class Select(tk.Frame):
             tk.messagebox.showerror(title='Error', message="未選過 "+self.course+" !")
 
     def change(self):
-        global toCart_list
-        toCart_list = []
+        global target
+        target = []
         for i in self.list:
             self.buffer = ''
             for j in range(len(i)):
@@ -339,7 +339,7 @@ class Select(tk.Frame):
                     self.buffer += i[j]
                 else:
                     break
-            toCart_list.append(self.buffer)
+            target.append(self.buffer)
         self.destroy()
 
 if __name__ == '__main__':
