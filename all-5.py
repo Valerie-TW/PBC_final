@@ -194,7 +194,7 @@ class page2(tk.Frame):
             if self.filter0[i] == self.filter5[i] == True:
                 self.filter5[i] = True
             else:
-                self.filter5[i] = False        
+                self.filter5[i] = False
         self.b5 = self.a[self.filter5]
 
         self.filter6 = []
@@ -203,6 +203,10 @@ class page2(tk.Frame):
                 self.filter6.append(True)
             else:
                 self.filter6.append(False)
+        if self.filter0[i] == self.filter6[i] == True:
+            self.filter6[i] = True
+        else:
+            self.filter6[i] = False
         self.b6 = self.a[self.filter6]
 
 
