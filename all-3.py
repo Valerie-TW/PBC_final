@@ -116,7 +116,7 @@ class page2(tk.Frame):
             else:
                 list1 = [int(j) for j in i[1:-1].split(',')]
                 self.filter0.append(set(list1) & my_course == set())
-                
+
         self.filter1 = []
         for i in self.a['2']:
             d1 = bool(i[0:2] == 'PE')
@@ -332,18 +332,18 @@ class page2(tk.Frame):
 
     def addToCart(self):
         if self.course in self.list:
-            tk.messagebox.showerror(title='Error', message=self.course+" 已選過!")
+            tk.messagebox.showerror(title='Error', message=self.course.strip()+" 已選過!")
         else:
             self.list.append(self.course)
-            tk.messagebox.showerror(title='Success', message="成功選取 "+self.course+" !")
+            tk.messagebox.showerror(title='Success', message="成功選取 "+self.course.strip()+" !")
 
 
     def removeFromCart(self):
         if self.course in self.list:
             self.list.remove(self.course)
-            tk.messagebox.showerror(title='Success', message="成功移除 "+self.course+" !")
+            tk.messagebox.showerror(title='Success', message="成功移除 "+self.course.strip()+" !")
         else:
-            tk.messagebox.showerror(title='Error', message="未選過 "+self.course+" !")
+            tk.messagebox.showerror(title='Error', message="未選過 "+self.course.strip()+" !")
 
     def change(self):
         global target
