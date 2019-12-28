@@ -31,7 +31,6 @@ class Window(tk.Frame):
         self.college= ttk.Combobox(self, values=all_coll)
         self.college.grid(row=2, column=9)
         self.college.current(0)
-        '''self.txt = tk.Text(height=1, width=10)'''
         tkFont.Font(size=32, family="Courier New")
         which_date = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
         date = dict()
@@ -45,19 +44,15 @@ class Window(tk.Frame):
         for i in range(7):
             self.lb1[i] = tk.Label(self, text=date[i], bg="green", fg="white")
             self.lb1[i].grid(row=0, column=i + 1)
-            '''self.lb[i].pack(side='left')'''
-        self.lb2 = dict()
+            self.lb2 = dict()
         for i in range(15):
             self.lb2[i] = tk.Label(self, text=period[i], bg="green", fg="white")
             self.lb2[i].grid(row=i + 1, column=0)
         self.btn = dict()
         for i in range(105):
-            '''self.btn[i] = tk.Button(self, width=8, height=2, bg="gray", command=lambda f=i: self.change_color(f))'''
             self.btn[i] = tk.Button(self, width=8, height=2, bg="gray", command=lambda f=i: self.click(f))
             self.btn[i].grid(row=i % 15 + 1, column=int(i / 15) + 1, sticky=tk.N + tk.E + tk.S + tk.W)
 
-    '''def change_color(self, index):
-        self.btn[index].configure(bg='green')'''
     add = dict()
     for j in range(105):
         add[j] = 0
@@ -85,22 +80,32 @@ class Window(tk.Frame):
         for i in self.information:
             my_course.append(i)
         self.destroy()
-        Select(tk.Frame)
+        page2(tk.Frame)
 
-
-    '''print(self.information)'''
-
-    '''self.information[self.lb1[int(index / 7)]] = self.lb2[int(index / 7)]'''
-
-class Select(tk.Frame):
-    def __init__(self):
+class page2(tk.Frame):
+    def __init__(self,master):
         tk.Frame.__init__(self)
+        self.master = master
         self.grid()
         self.csv = pd.read_csv('PBC_final_rawdata.csv')
         self.a = pd.DataFrame(self.csv)
         self.course_list = self.a.values.tolist()
+        self.master.grid_rowconfigure(0, weight=1)
+        self.master.grid_columnconfigure(0, weight=1)
+        w, h = self.master.maxsize()
+        self.master.geometry("{}x{}".format(w, h))
+        self.master.title('課表')
         self.create_widget()
     def create_widget(self):
+        self.filter0 = []
+        for i in a['12']:
+            if i[1:-1] == '':
+                self.filter0.append(set(i[1:-1]) & my_course == set())
+            else:
+                list1 = [int(j) for j in i[1:-1].split(',')]
+                self.filter0.append(set(list1) & my_course == set())
+        print(a[self.filter0])
+
         self.filter1 = []
         for i in self.a['2']:
             d1 = bool(i[0:2] == 'PE')
@@ -150,6 +155,14 @@ class Select(tk.Frame):
                 self.filter5.append(False)
         self.b5 = self.a[self.filter5]
 
+        '''self.required = []
+        for i in self.a['2']:
+            self.choice = re.search(r'703', str(i))
+            if not self.choice:
+                self.required.append(bool(self.choice))
+            else:
+                self.required.append(True)
+        print(self.required)'''
         self.filter6 = []
         for i in range(len(self.filter2)):
             if self.filter1[i] == self.filter2[i] == self.filter3[i] == self.filter4[i] == self.filter5[i] == False:
@@ -341,6 +354,7 @@ class Select(tk.Frame):
                     break
             target.append(self.buffer)
         self.destroy()
+
 
 if __name__ == '__main__':
     root = tk.Tk()
