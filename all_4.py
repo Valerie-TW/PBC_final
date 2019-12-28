@@ -113,17 +113,22 @@ class page2(tk.Frame):
         self.master.title('課表')
     def create_widget(self):
         self.filter0 = []
-        for i in a['12']:
+        for i in self.a['12']:
             if i[1:-1] == '':
-                self.filter0.append(set(i[1:-1]) & my_course == set())
+                self.filter0.append(set(i[1:-1]) & set(my_course) == set())
             else:
-                list1 = [int(j) for j in i[1:-1].split(',')]
-                self.filter0.append(set(list1) & my_course == set())
+                self.list1 = [int(j) for j in i[1:-1].split(',')]
+                self.filter0.append(set(self.list1) & set(my_course) == set())
 
         self.filter1 = []
         for i in self.a['2']:
             d1 = bool(i[0:2] == 'PE')
             self.filter1.append(d1)
+        for i in range(len(self.a)):
+            if self.filter0[i] == self.filter1[i] == True:
+                self.filter1[i] = True
+            else:
+                self.filter1[i] = False
         self.b1 = self.a[self.filter1]
 
         self.filter2 = []
@@ -133,6 +138,11 @@ class page2(tk.Frame):
             else:
                 d2 = bool(i[1:5] == '大學國文')
                 self.filter2.append(d2)
+        for i in range(len(self.a)):
+            if self.filter0[i] == self.filter2[i] == True:
+                self.filter2[i] = True
+            else:
+                self.filter2[i] = False
         self.b2 = self.a[self.filter2]
 
         self.filter3 = []
@@ -144,6 +154,11 @@ class page2(tk.Frame):
                     break
                 elif j == 'A8' and j not in str(i):
                     self.filter3.append(False)
+        for i in range(len(self.a)):
+            if self.filter0[i] == self.filter3[i] == True:
+                self.filter3[i] = True
+            else:
+                self.filter3[i] = False
         self.b3 = self.a[self.filter3]
 
         self.filter4 = []
@@ -153,6 +168,11 @@ class page2(tk.Frame):
             else:
                 d4 = bool(i[1:11] == '全民國防教育軍事訓練')
                 self.filter4.append(d4)
+        for i in range(len(self.a)):
+            if self.filter0[i] == self.filter4[i] == True:
+                self.filter4[i] = True
+            else:
+                self.filter4[i] = False
         self.b4= self.a[self.filter4]
 
         self.filter5 = []
@@ -167,10 +187,15 @@ class page2(tk.Frame):
                 self.filter5.append(d6)
             else:
                 self.filter5.append(False)
+        for i in range(len(self.a)):
+            if self.filter0[i] == self.filter5[i] == True:
+                self.filter5[i] = True
+            else:
+                self.filter5[i] = False        
         self.b5 = self.a[self.filter5]
 
         self.filter6 = []
-        for i in range(len(self.filter2)):
+        for i in range(len(self.a)):
             if self.filter1[i] == self.filter2[i] == self.filter3[i] == self.filter4[i] == self.filter5[i] == False:
                 self.filter6.append(True)
             else:
