@@ -12,8 +12,8 @@ import time
 
 class basedesk():
     def __init__(self,master):
-        self.root = master    
-        Window(self.root)      
+        self.root = master
+        Window(self.root)
 class Window(tk.Frame):
     def __init__(self,master):
         tk.Frame.__init__(self)
@@ -109,6 +109,14 @@ class page2(tk.Frame):
         self.master.geometry("{}x{}".format(w, h))
         self.master.title('課表')
     def create_widget(self):
+        self.filter0 = []
+        for i in a['12']:
+            if i[1:-1] == '':
+                self.filter0.append(set(i[1:-1]) & my_course == set())
+            else:
+                list1 = [int(j) for j in i[1:-1].split(',')]
+                self.filter0.append(set(list1) & my_course == set())
+                
         self.filter1 = []
         for i in self.a['2']:
             d1 = bool(i[0:2] == 'PE')
@@ -169,7 +177,7 @@ class page2(tk.Frame):
 
         self.labelTop1 = tk.Label(self, text="體育")
         self.labelTop1.grid(column=0, row=0)
-        self.comboExample1 = ttk.Combobox(self, value=self.b1[['0', '4', '10', '19']].values.tolist(), width=50)
+        self.comboExample1 = ttk.Combobox(self, state='readonly', value=self.b1[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample1.grid(column=0, row=1)
         self.comboExample1.current(0)
 
@@ -183,7 +191,7 @@ class page2(tk.Frame):
 
         self.labelTop2 = tk.Label(self, text="大學國文")
         self.labelTop2.grid(column=0, row=2)
-        self.comboExample2 = ttk.Combobox(self, value=self.b2[['0', '4', '10', '19']].values.tolist(), width=50)
+        self.comboExample2 = ttk.Combobox(self, state='readonly', value=self.b2[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample2.grid(column=0, row=3)
         self.comboExample2.current(0)
 
@@ -197,7 +205,7 @@ class page2(tk.Frame):
 
         self.labelTop3 = tk.Label(self, text="通識")
         self.labelTop3.grid(column=0, row=4)
-        self.comboExample3 = ttk.Combobox(self, value=self.b3[['0', '4', '10', '19']].values.tolist(), width=50)
+        self.comboExample3 = ttk.Combobox(self, state='readonly', value=self.b3[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample3.grid(column=0, row=5)
         self.comboExample3.current(0)
 
@@ -211,7 +219,7 @@ class page2(tk.Frame):
 
         self.labelTop4 = tk.Label(self, text="軍訓")
         self.labelTop4.grid(column=0, row=6)
-        self.comboExample4 = ttk.Combobox(self, value=self.b4[['0', '4', '10', '19']].values.tolist(), width=50)
+        self.comboExample4 = ttk.Combobox(self, state='readonly', value=self.b4[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample4.grid(column=0, row=7)
         self.comboExample4.current(0)
 
@@ -225,7 +233,7 @@ class page2(tk.Frame):
 
         self.labelTop5 = tk.Label(self, text="英語授課")
         self.labelTop5.grid(column=0, row=8)
-        self.comboExample5 = ttk.Combobox(self, value=self.b5[['0', '4', '10', '19']].values.tolist(), width=50)
+        self.comboExample5 = ttk.Combobox(self, state='readonly', value=self.b5[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample5.grid(column=0, row=9)
         self.comboExample5.current(0)
 
@@ -239,7 +247,7 @@ class page2(tk.Frame):
 
         self.labelTop6 = tk.Label(self, text="選修")
         self.labelTop6.grid(column=0, row=10)
-        self.comboExample6 = ttk.Combobox(self, value=self.b6[['0', '4', '10', '19']].values.tolist(), width=50)
+        self.comboExample6 = ttk.Combobox(self, state='readonly', value=self.b6[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample6.grid(column=0, row=11)
         self.comboExample6.current(0)
 
@@ -363,7 +371,7 @@ class page3(tk.Frame) :
         w, h = self.master.maxsize()
         self.master.geometry("{}x{}".format(w, h))
         # self.course = selected_course
-        self.pack()     
+        self.pack()
         self.deliver_btn()
         self.text_title()
         self.print_course()
@@ -392,10 +400,10 @@ class page3(tk.Frame) :
         self.course = self.get_selected_course(target)
         # self.lab = tk.Label(text='111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111  22222222222')
         # self.lab.pack()
-        
+
         # target_idx = [97001, 97002, 97003]
         flag = True
-        for value in self.course:    
+        for value in self.course:
             self.lab = tk.Label(text=value,font='微軟正黑體 10',width ='160',height='3',bg=('#FFFACD' if flag else '#EEE8CD'))
             self.lab.pack()
             flag = not flag
@@ -441,10 +449,10 @@ class page3(tk.Frame) :
         driver.find_element_by_xpath('/html/body/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[1]/td[1]/table/tbody/tr[2]/td/map/area[1]').click()
         driver.find_element_by_xpath('/html/body/table/tbody/tr[3]/td/table/tbody/tr[1]/td[1]/a').click()  # 進入課程篩選頁面
 
-        select_button = Select(driver.find_element_by_id('cstype')) 
+        select_button = Select(driver.find_element_by_id('cstype'))
         select_button.select_by_visible_text('流水號')
 
-        
+
         for number in target :
             driver.find_element_by_id('csname').clear()
             driver.find_element_by_id('csname').send_keys(number)
@@ -453,7 +461,7 @@ class page3(tk.Frame) :
             driver.find_element_by_xpath("/html/body/table[4]/tbody/tr[2]/td[18]").click()
 
 
-# root = page3(target) 
+# root = page3(target)
 # root.mainloop()
 
 if __name__ == '__main__':
