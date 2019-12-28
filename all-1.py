@@ -93,69 +93,70 @@ class Window(tk.Frame):
     '''self.information[self.lb1[int(index / 7)]] = self.lb2[int(index / 7)]'''
 
 class Select(tk.Frame):
-    def __init__(self,master):
+    def __init__(self):
         tk.Frame.__init__(self)
-        self.master = master
         self.grid()
         self.csv = pd.read_csv('PBC_final_rawdata.csv')
         self.a = pd.DataFrame(self.csv)
         self.course_list = self.a.values.tolist()
         self.create_widget()
-        self.master.grid_rowconfigure(0, weight=1)
-        self.master.grid_columnconfigure(0, weight=1)
-        w, h = self.master.maxsize()
-        self.master.geometry("{}x{}".format(w, h))
-        self.master.title('課表')
     def create_widget(self):
-        self.filter2 = []
+        self.filter1 = []
         for i in self.a['2']:
-            d2 = bool(i[0:2] == 'PE')
-            self.filter2.append(d2)
-        self.filter3 = []
+            d1 = bool(i[0:2] == 'PE')
+            self.filter1.append(d1)
+        self.b1 = self.a[self.filter1]
+
+        self.filter2 = []
         for i in self.a['4']:
             if len(i) < 5:
-                self.filter3.append(False)
+                self.filter2.append(False)
             else:
-                d3 = bool(i[1:5] == '大學國文')
-                self.filter3.append(d3)
+                d2 = bool(i[1:5] == '大學國文')
+                self.filter2.append(d2)
+        self.b2 = self.a[self.filter2]
 
-        self.filter4 = []
+        self.filter3 = []
         self.tag = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8']
         for i in self.a['15']:
             for j in self.tag:
                 if j in str(i):
-                    self.filter4.append(True)
+                    self.filter3.append(True)
                     break
                 elif j == 'A8' and j not in str(i):
-                    self.filter4.append(False)
+                    self.filter3.append(False)
+        self.b3 = self.a[self.filter3]
 
-        self.filter5 = []
+        self.filter4 = []
         for i in self.a['4']:
             if len(i) < 11:
-                self.filter5.append(False)
+                self.filter4.append(False)
             else:
-                d5 = bool(i[1:11] == '全民國防教育軍事訓練')
-                self.filter5.append(d5)
+                d4 = bool(i[1:11] == '全民國防教育軍事訓練')
+                self.filter4.append(d4)
+        self.b4= self.a[self.filter4]
 
-        self.filter6 = []
+        self.filter5 = []
         for _ in self.a['15']:
             self.match1 = re.search(r'英語授課', str(_))
             self.match2 = re.search(r'英文授課', str(_))
             if self.match1:
-                d6 = bool(self.match1)
-                self.filter6.append(d6)
+                d5 = bool(self.match1)
+                self.filter5.append(d5)
             elif self.match2:
-                d7 = bool(self.match2)
-                self.filter6.append(d7)
+                d6 = bool(self.match2)
+                self.filter5.append(d6)
+            else:
+                self.filter5.append(False)
+        self.b5 = self.a[self.filter5]
+
+        self.filter6 = []
+        for i in range(len(self.filter2)):
+            if self.filter1[i] == self.filter2[i] == self.filter3[i] == self.filter4[i] == self.filter5[i] == False:
+                self.filter6.append(True)
             else:
                 self.filter6.append(False)
-
-        self.filter7 = []
-        for i in range(len(self.filter2)):
-            if self.filter2[i] == self.filter3[i] == self.filter4[i] == self.filter5[i] == self.filter6[i] == False:
-                self.filter7.append(True)
-            else:
-                self.filter7.append(False)
+        self.b6 = self.a[self.filter6]
 
 
         self.labelTop1 = tk.Label(self, text="體育")
@@ -245,8 +246,8 @@ class Select(tk.Frame):
         self.Changebtn = tk.Button(self, text="選取完畢", width=10, height=2, command=self.change)
         self.Changebtn.grid(column=3, row=0)
 
-        self.list = []
         self.course = str()
+        self.list = []
 
     def add1(self):
         global course
@@ -340,7 +341,6 @@ class Select(tk.Frame):
                     break
             toCart_list.append(self.buffer)
         self.destroy()
-        window(tk.Frame)
 
 if __name__ == '__main__':
     root = tk.Tk()
