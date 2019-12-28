@@ -10,11 +10,25 @@ class window(tk.Frame) :
         tk.Frame.__init__(self)
         self.status = tk.StringVar()
         self.status.set('')
+        self.master.title('已選課程')
+        self.master.configure(bg='#FFFFE0')
+        w, h = self.master.maxsize()
+        self.master.geometry("{}x{}".format(w, h))
         # self.course = selected_course
         self.pack()     
         self.deliver_btn()
         self.text_title()
         self.print_course()
+        self.account = tk.StringVar()
+        self.password = tk.StringVar()
+        self.lab_account = tk.Label(text='帳號',font='微軟正黑體 10',fg='#8B814C',bg='#FFFFE0')
+        self.entry_account = tk.Entry(textvariable=self.account)
+        self.lab_password = tk.Label(text='密碼',font='微軟正黑體 10',fg='#8B814C',bg='#FFFFE0')
+        self.entry_password = tk.Entry(textvariable=self.password,show='*')
+        self.entry_password.pack(side='bottom')
+        self.lab_password.pack(side='bottom')
+        self.entry_account.pack(side='bottom')
+        self.lab_account.pack(side='bottom')
 
     def text_title(self) :
         self.title = tk.Label(text='已選課程',fg='#8B814C',bg='#FFFFE0',font='微軟正黑體 15')
@@ -50,9 +64,9 @@ class window(tk.Frame) :
         #輸入帳號密碼（請自行輸入）
         try:
             driver.find_element_by_name('user').clear()
-            driver.find_element_by_name('user').send_keys(account.get())
+            driver.find_element_by_name('user').send_keys(self.account.get())
             driver.find_element_by_name('pass').clear()
-            driver.find_element_by_name('pass').send_keys(password.get())
+            driver.find_element_by_name('pass').send_keys(self.password.get())
             driver.find_element_by_name('Submit').click()
         except Exception:
             print(Exception)
@@ -73,24 +87,6 @@ class window(tk.Frame) :
             # driver.switch_to.frame(driver.find_element_by_name('main'))
             driver.find_element_by_xpath("/html/body/table[4]/tbody/tr[2]/td[18]").click()
 
-# number_list = ['01001','44747']
-# course = {'01001':'CHIN1081 01 大學國文一','44747':'圖資系	LIS1004	參考資源','30904':'圖資系 LIS1003 01 服務學習三'}
+
 root = window(target) 
-root.master.title('已選課程')
-root.master.configure(bg='#FFFFE0')
-root.master.resizable(1,1)
-# root.master.geometry('')
-w, h = root.master.maxsize()
-root.master.geometry("{}x{}".format(w, h))
-# //////
-account = tk.StringVar()
-password = tk.StringVar()
-lab_account = tk.Label(text='帳號',font='微軟正黑體 10',fg='#8B814C',bg='#FFFFE0')
-entry_account = tk.Entry(textvariable=account)
-lab_password = tk.Label(text='密碼',font='微軟正黑體 10',fg='#8B814C',bg='#FFFFE0')
-entry_password = tk.Entry(textvariable=password,show='*')
-entry_password.pack(side='bottom')
-lab_password.pack(side='bottom')
-entry_account.pack(side='bottom')
-lab_account.pack(side='bottom')
 root.mainloop()
