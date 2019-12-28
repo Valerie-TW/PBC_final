@@ -86,19 +86,24 @@ class Window(tk.Frame):
         for i in self.information:
             my_course.append(i)
         self.destroy()
-        Select(tk.Frame)
+        page2(tk.Frame)
 
 
     '''print(self.information)'''
 
     '''self.information[self.lb1[int(index / 7)]] = self.lb2[int(index / 7)]'''
 
-class Select(tk.Frame):
+class page2(tk.Frame):
     def __init__(self,master):
         tk.Frame.__init__(self)
-        self.master = master
+        # self.master = master
         self.grid()
-        self.csv = pd.read_csv('PBC_final_rawdata.csv')
+        googleSheetId = '1AofDa53X_w1VbCXRpz_Ete6BXuQTdnVAjsWCFip9weM'
+        worksheetName = 'PBC_final_rawdata'
+        pd.set_option('display.max_columns', None)
+        pd.set_option('display.max_rows', None)
+        url = 'https://docs.google.com/spreadsheets/d/{0}/gviz/tq?tqx=out:csv&sheet={1}'.format(googleSheetId,worksheetName)
+        self.csv = pd.read_csv(url)
         self.a = pd.DataFrame(self.csv)
         self.course_list = self.a.values.tolist()
         self.create_widget()
@@ -337,8 +342,8 @@ class Select(tk.Frame):
             tk.messagebox.showerror(title='Error', message="未選過 "+self.course+" !")
 
     def change(self):
-        global toCart_list
-        toCart_list = []
+        global target
+        target = []
         for i in self.list:
             self.buffer = ''
             for j in range(len(i)):
@@ -346,8 +351,7 @@ class Select(tk.Frame):
                     self.buffer += i[j]
                 else:
                     break
-            toCart_list.append(self.buffer)
-        print(toCart_list)
+            target.append(self.buffer)
         self.destroy()
 
 if __name__ == '__main__':
