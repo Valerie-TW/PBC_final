@@ -8,8 +8,8 @@ import re
 
 class basedesk():
     def __init__(self,master):
-        self.root = master    
-        Window(self.root)      
+        self.root = master
+        Window(self.root)
 class Window(tk.Frame):
     def __init__(self,master):
         tk.Frame.__init__(self)
@@ -160,92 +160,93 @@ class Select(tk.Frame):
 
         self.labelTop1 = tk.Label(self, text="體育")
         self.labelTop1.grid(column=0, row=0)
-        self.comboExample1 = ttk.Combobox(self, value=self.a[self.filter2].values.tolist(), width=50)
-        # print(dict(comboExample1))
+        self.comboExample1 = ttk.Combobox(self, value=self.b1[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample1.grid(column=0, row=1)
         self.comboExample1.current(0)
 
-        self.btn1 = tk.Button(self, text="add", width=15,
+        self.btn1 = tk.Button(self, text="加入", width=15,
                          height=2, command=self.add1)
         self.btn1.grid(column=1, row=1)
 
-        self.btn11 = tk.Button(self, text="remove", width=15,
+        self.btn11 = tk.Button(self, text="移除", width=15,
                          height=2, command=self.remove1)
         self.btn11.grid(column=2, row=1)
 
         self.labelTop2 = tk.Label(self, text="大學國文")
         self.labelTop2.grid(column=0, row=2)
-        self.comboExample2 = ttk.Combobox(self, value=self.a[self.filter3].values.tolist(), width=50)
-        # print(dict(comboExample2))
+        self.comboExample2 = ttk.Combobox(self, value=self.b2[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample2.grid(column=0, row=3)
         self.comboExample2.current(0)
 
-        self.btn2 = tk.Button(self, text="add", width=15,
+        self.btn2 = tk.Button(self, text="加入", width=15,
                          height=2, command=self.add2)
         self.btn2.grid(column=1, row=3)
 
-        self.btn22 = tk.Button(self, text="remove", width=15,
+        self.btn22 = tk.Button(self, text="移除", width=15,
                          height=2, command=self.remove2)
         self.btn22.grid(column=2, row=3)
 
         self.labelTop3 = tk.Label(self, text="通識")
         self.labelTop3.grid(column=0, row=4)
-        self.comboExample3 = ttk.Combobox(self, value=self.a[self.filter4].values.tolist(), width=50)
+        self.comboExample3 = ttk.Combobox(self, value=self.b3[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample3.grid(column=0, row=5)
         self.comboExample3.current(0)
 
-        self.btn3 = tk.Button(self, text="add", width=15,
+        self.btn3 = tk.Button(self, text="加入", width=15,
                          height=2, command=self.add3)
         self.btn3.grid(column=1, row=5)
 
-        self.btn33 = tk.Button(self, text="remove", width=15,
+        self.btn33 = tk.Button(self, text="移除", width=15,
                          height=2, command=self.remove3)
         self.btn33.grid(column=2, row=5)
 
         self.labelTop4 = tk.Label(self, text="軍訓")
         self.labelTop4.grid(column=0, row=6)
-        self.comboExample4 = ttk.Combobox(self, value=self.a[self.filter5].values.tolist(), width=50)
+        self.comboExample4 = ttk.Combobox(self, value=self.b4[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample4.grid(column=0, row=7)
         self.comboExample4.current(0)
 
-        self.btn4 = tk.Button(self, text="add", width=15,
+        self.btn4 = tk.Button(self, text="加入", width=15,
                          height=2, command=self.add4)
         self.btn4.grid(column=1, row=7)
 
-        self.btn44 = tk.Button(self, text="remove", width=15,
+        self.btn44 = tk.Button(self, text="移除", width=15,
                          height=2, command=self.remove4)
         self.btn44.grid(column=2, row=7)
 
         self.labelTop5 = tk.Label(self, text="英語授課")
         self.labelTop5.grid(column=0, row=8)
-        self.comboExample5 = ttk.Combobox(self, value=self.a[self.filter6].values.tolist(), width=50)
+        self.comboExample5 = ttk.Combobox(self, value=self.b5[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample5.grid(column=0, row=9)
         self.comboExample5.current(0)
 
-        self.btn5 = tk.Button(self, text="add", width=15,
+        self.btn5 = tk.Button(self, text="加入", width=15,
                          height=2, command=self.add5)
         self.btn5.grid(column=1, row=9)
 
-        self.btn55 = tk.Button(self, text="remove", width=15,
+        self.btn55 = tk.Button(self, text="移除", width=15,
                          height=2, command=self.remove5)
         self.btn55.grid(column=2, row=9)
 
         self.labelTop6 = tk.Label(self, text="選修")
         self.labelTop6.grid(column=0, row=10)
-        self.comboExample6 = ttk.Combobox(self, value=self.a[self.filter7].values.tolist(), width=50)
+        self.comboExample6 = ttk.Combobox(self, value=self.b6[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample6.grid(column=0, row=11)
         self.comboExample6.current(0)
 
-        self.btn6 = tk.Button(self, text="add", width=15,
+        self.btn6 = tk.Button(self, text="加入", width=15,
                          height=2, command=self.add6)
         self.btn6.grid(column=1, row=11)
 
-        self.btn66 = tk.Button(self, text="remove", width=15,
+        self.btn66 = tk.Button(self, text="移除", width=15,
                          height=2, command=self.remove6)
         self.btn66.grid(column=2, row=11)
 
-        self.course = str()
+        self.Changebtn = tk.Button(self, text="選取完畢", width=10, height=2, command=self.change)
+        self.Changebtn.grid(column=3, row=0)
+
         self.list = []
+        self.course = str()
 
     def add1(self):
         global course
@@ -314,24 +315,32 @@ class Select(tk.Frame):
 
     def addToCart(self):
         if self.course in self.list:
-            tk.messagebox.showerror(title='Error', message=self.course+" was added before!")
-        elif self.course == "--Select a flavor--":
-            tk.messagebox.showerror(title='Error', message="Please select a flavor!")
+            tk.messagebox.showerror(title='Error', message=self.course+" 已選過!")
         else:
             self.list.append(self.course)
-            tk.messagebox.showerror(title='Success', message=self.course+" has been added!")
-            print(self.list)
+            tk.messagebox.showerror(title='Success', message="成功選取 "+self.course+" !")
+
 
     def removeFromCart(self):
         if self.course in self.list:
             self.list.remove(self.course)
-            tk.messagebox.showerror(title='Success', message=self.course+" has been removed!")
-            print(self.list)
-        elif self.course == "--Select a flavor--":
-            tk.messagebox.showerror(title='Error', message="Please select a flavor!")
+            tk.messagebox.showerror(title='Success', message="成功移除 "+self.course+" !")
         else:
-            tk.messagebox.showerror(title='Error', message=self.course+" wasn't added!")
+            tk.messagebox.showerror(title='Error', message="未選過 "+self.course+" !")
 
+    def change(self):
+        global toCart_list
+        toCart_list = []
+        for i in self.list:
+            self.buffer = ''
+            for j in range(len(i)):
+                if i[j] != ' ':
+                    self.buffer += i[j]
+                else:
+                    break
+            toCart_list.append(self.buffer)
+        self.destroy()
+        window(tk.Frame)
 
 if __name__ == '__main__':
     root = tk.Tk()
