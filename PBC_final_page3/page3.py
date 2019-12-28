@@ -4,12 +4,6 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import time
 from cr import *
-# import pandas as pd
-# import gspread
-# from oauth2client.service_account import ServiceAccountCredentials as SAC
-# import pygsheets
-
-
 
 class window(tk.Frame) :
     def __init__(self, selected_course) :
@@ -86,8 +80,8 @@ root.master.title('已選課程')
 root.master.configure(bg='#FFFFE0')
 root.master.resizable(1,1)
 # root.master.geometry('')
-# w, h = root.master.maxsize()
-# root.master.geometry("{}x{}".format(w, h))
+w, h = root.master.maxsize()
+root.master.geometry("{}x{}".format(w, h))
 # //////
 account = tk.StringVar()
 password = tk.StringVar()
