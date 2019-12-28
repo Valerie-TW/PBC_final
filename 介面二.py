@@ -81,7 +81,7 @@ class Select(tk.Frame):
 
         self.labelTop1 = tk.Label(self, text="體育")
         self.labelTop1.grid(column=0, row=0)
-        self.comboExample1 = ttk.Combobox(self, value=self.b1[['0', '4', '10', '19']].values.tolist(), width=50)
+        self.comboExample1 = ttk.Combobox(self, state='readonly', value=self.b1[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample1.grid(column=0, row=1)
         self.comboExample1.current(0)
 
@@ -95,7 +95,7 @@ class Select(tk.Frame):
 
         self.labelTop2 = tk.Label(self, text="大學國文")
         self.labelTop2.grid(column=0, row=2)
-        self.comboExample2 = ttk.Combobox(self, value=self.b2[['0', '4', '10', '19']].values.tolist(), width=50)
+        self.comboExample2 = ttk.Combobox(self, state='readonly', value=self.b2[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample2.grid(column=0, row=3)
         self.comboExample2.current(0)
 
@@ -109,7 +109,7 @@ class Select(tk.Frame):
 
         self.labelTop3 = tk.Label(self, text="通識")
         self.labelTop3.grid(column=0, row=4)
-        self.comboExample3 = ttk.Combobox(self, value=self.b3[['0', '4', '10', '19']].values.tolist(), width=50)
+        self.comboExample3 = ttk.Combobox(self, state='readonly', value=self.b3[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample3.grid(column=0, row=5)
         self.comboExample3.current(0)
 
@@ -123,7 +123,7 @@ class Select(tk.Frame):
 
         self.labelTop4 = tk.Label(self, text="軍訓")
         self.labelTop4.grid(column=0, row=6)
-        self.comboExample4 = ttk.Combobox(self, value=self.b4[['0', '4', '10', '19']].values.tolist(), width=50)
+        self.comboExample4 = ttk.Combobox(self, state='readonly', value=self.b4[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample4.grid(column=0, row=7)
         self.comboExample4.current(0)
 
@@ -137,7 +137,7 @@ class Select(tk.Frame):
 
         self.labelTop5 = tk.Label(self, text="英語授課")
         self.labelTop5.grid(column=0, row=8)
-        self.comboExample5 = ttk.Combobox(self, value=self.b5[['0', '4', '10', '19']].values.tolist(), width=50)
+        self.comboExample5 = ttk.Combobox(self, state='readonly', value=self.b5[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample5.grid(column=0, row=9)
         self.comboExample5.current(0)
 
@@ -151,7 +151,7 @@ class Select(tk.Frame):
 
         self.labelTop6 = tk.Label(self, text="選修")
         self.labelTop6.grid(column=0, row=10)
-        self.comboExample6 = ttk.Combobox(self, value=self.b6[['0', '4', '10', '19']].values.tolist(), width=50)
+        self.comboExample6 = ttk.Combobox(self, state='readonly', value=self.b6[['0', '4', '10', '19']].values.tolist(), width=50)
         self.comboExample6.grid(column=0, row=11)
         self.comboExample6.current(0)
 
@@ -236,18 +236,18 @@ class Select(tk.Frame):
 
     def addToCart(self):
         if self.course in self.list:
-            tk.messagebox.showerror(title='Error', message=self.course+" 已選過!")
+            tk.messagebox.showerror(title='Error', message=self.course.strip()+" 已選過!")
         else:
             self.list.append(self.course)
-            tk.messagebox.showerror(title='Success', message="成功選取 "+self.course+" !")
+            tk.messagebox.showerror(title='Success', message="成功選取 "+self.course.strip()+" !")
 
 
     def removeFromCart(self):
         if self.course in self.list:
             self.list.remove(self.course)
-            tk.messagebox.showerror(title='Success', message="成功移除 "+self.course+" !")
+            tk.messagebox.showerror(title='Success', message="成功移除 "+self.course.strip()+" !")
         else:
-            tk.messagebox.showerror(title='Error', message="未選過 "+self.course+" !")
+            tk.messagebox.showerror(title='Error', message="未選過 "+self.course.strip()+" !")
 
     def change(self):
         global toCart_list
@@ -260,7 +260,6 @@ class Select(tk.Frame):
                 else:
                     break
             toCart_list.append(self.buffer)
-        print(toCart_list)
         self.destroy()
 
 s = Select()
